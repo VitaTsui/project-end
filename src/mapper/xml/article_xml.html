@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "https://raw.githubusercontent.com/rbatis/rbatis/master/rbatis-codegen/mybatis-3-mapper.dtd">
+<mapper>
+  <select id="get_article_list">
+    `SELECT * FROM articles`
+    <where>
+      ` 1 = 1`
+      <if test="search != null">
+        <if test="search.title != null">
+          ` AND title LIKE '%${search.title}%'`
+        </if>
+        <if test="search.status != null"> ` AND status = #{search.status}` </if>
+        <if test="search.tag != null">
+          ` AND JSON_CONTAINS(tags, '"${search.tag}"')`
+        </if>
+        <if test="search.created_at != null">
+          ` AND created_at BETWEEN #{search.created_at[0]} AND
+          #{search.created_at[1]}`
+        </if>
+        ` ORDER BY created_at DESC`
+        <if test="search.page_num != null">
+          <if test="search.page_size != null">
+            ` LIMIT #{search.page_num},#{search.page_size}`
+          </if>
+        </if>
+      </if>
+    </where>
+  </select>
+
+  <select id="get_article_count">
+    `SELECT COUNT(*) FROM articles`
+    <where>
+      ` 1 = 1`
+      <if test="search != null">
+        <if test="search.title != null">
+          ` AND title LIKE '%${search.title}%'`
+        </if>
+        <if test="search.status != null"> ` AND status = #{search.status}` </if>
+        <if test="search.tag != null">
+          ` AND JSON_CONTAINS(tags, '"${search.tag}"')
+        </if>
+        <if test="search.created_at != null">
+          ` AND created_at BETWEEN #{search.created_at[0]} AND
+          #{search.created_at[1]}`
+        </if>
+      </if>
+    </where>
+  </select>
+
+  <select id="get_article_by_id">
+    `SELECT * FROM articles WHERE id = #{id}`
+  </select>
+
+  <insert id="create_article">
+    `INSERT INTO articles (tags, title, intro, article, status, created_at,
+    updated_at) VALUES (#{article.tags}, #{article.title}, #{article.intro},
+    #{article.article}, #{article.status}, #{article.created_at},
+    #{article.updated_at})`
+  </insert>
+
+  <update id="update_article_by_id">
+    ` UPDATE articles SET id = #{article.id}`
+    <if test="article.tags != null"> `, tags = #{article.tags}` </if>
+    <if test="article.title != null"> `, title = #{article.title}` </if>
+    <if test="article.intro != null"> `, intro = #{article.intro}` </if>
+    <if test="article.article != null"> `, article = #{article.article}` </if>
+    <if test="article.status != null"> `, status = #{article.status}` </if>
+    <if test="article.updated_at != null">
+      `, updated_at = #{article.updated_at}`
+    </if>
+    ` WHERE id = #{article.id}`
+  </update>
+</mapper>

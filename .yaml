@@ -1,0 +1,11 @@
+server:
+  # server设置
+  host: "127.0.0.1"
+  port: "8080"
+mysql:
+  # mysql配置
+  host: "127.0.0.1"
+  port: "3306"
+  username: "username"
+  password: "password"
+  database: "database"

@@ -1,0 +1,22 @@
+[package]
+name = "projrct-end"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+salvo = "0.68"
+tokio = { version = "1", features = ["macros"] }
+lazy_static = "1.4"
+# 序列化工具
+serde = "1.0"
+serde_yaml = "0.9"
+#日志依赖
+tracing = "0.1"
+tracing-subscriber = "0.3"
+#数据库依赖
+rbatis = "4.5"
+rbdc-mysql = "4.5"
+rbs = "4.5"
+
+[target.x86_64-unknown-linux-musl] # 也支持[build]节点 设置target=...
+linker = "x86_64-linux-musl-gcc"
